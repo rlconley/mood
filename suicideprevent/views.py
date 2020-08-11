@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Mood 
+from .models import Mood, Sleep 
 from .forms import moodsForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 # Create your views here.
 def list_moods(request):
   moods = Mood.objects.all()
-  return render(request, "moods/list_moods.html",                        {"moods": moods})
+  return render(request, "moods/list_moods.html", {"moods": moods})
   
 def add_moods(request):
     if request.method == 'GET':
@@ -47,7 +47,9 @@ def edit_moods(request, pk):
     })
 
 def homepage(request):
-      return render(request, "moods/homepage.html")
+      moods = Mood.objects.all()
+      sleeps = Sleep.objects.all()
+      return render(request, "moods/homepage.html", {'moods':moods, 'sleeps': sleeps})
 
 def self_care(request):
       return render(request, "moods/self_care.html")
